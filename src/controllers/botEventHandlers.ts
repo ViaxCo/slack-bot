@@ -35,8 +35,8 @@ const botEventHandlers = () => {
   });
 
   // Message Two
-  let selectedTime: string;
-  let selectedDay: string;
+  let selectedTime: string | undefined;
+  let selectedDay: string | undefined;
   slackInteractions.action({ actionId: "time-select" }, payload => {
     selectedTime = payload.actions[0].selected_option.text.text;
   });
@@ -59,18 +59,23 @@ const botEventHandlers = () => {
         { $push: { responses: response } }
       );
       await respond({ ...messageThreeBlock });
+      // Empty answers after responding
+      selectedDay = undefined;
+      selectedTime = undefined;
     } catch (error) {
       await handleBotErrors(error, respond);
     }
   });
 
   // Message Three
-  let selectedHobbies: any[];
+  let selectedHobbies: any[] | undefined;
   slackInteractions.action({ actionId: "hobbies-select" }, payload => {
     selectedHobbies = payload.actions[0].selected_options;
   });
 
   slackInteractions.action({ actionId: "message_three" }, async (payload, respond) => {
+    if (!selectedHobbies || selectedHobbies.length === 0) throw new Error();
+
     const question = payload.message.text;
     const answer = selectedHobbies.map((option: any) => option.text.text);
     try {
@@ -84,6 +89,8 @@ const botEventHandlers = () => {
         { $push: { responses: response } }
       );
       await respond({ ...messageFourBlock });
+      // Empty answers after responding
+      selectedHobbies = undefined;
       // Message Four
       handleMessageFourReply(messageFourBlock.text);
     } catch (error) {
@@ -110,10 +117,11 @@ const botEventHandlers = () => {
             { "user.userId": event.user },
             { $push: { responses: response } }
           );
-          return await webClient.chat.postMessage({
+          await webClient.chat.postMessage({
             text: "Thank you",
             channel: event.channel,
           });
+          return slackEvents.removeAllListeners("message");
         }
       } catch (error) {
         await handleBotErrors(error, webClient.chat.postMessage, event.channel);
