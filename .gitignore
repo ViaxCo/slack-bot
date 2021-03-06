@@ -1,0 +1,14 @@
+# IDE workspace settings
+.vscode
+
+# Production directory
+build/
+
+# Dependency directory
+node_modules/
+
+# dotenv environment variables file
+.env
+
+# Api requests directory
+requests/
