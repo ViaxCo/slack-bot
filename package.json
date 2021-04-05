@@ -1,5 +1,5 @@
 {
-  "name": "seren-x-slack-bot",
+  "name": "slack-bot",
   "version": "1.0.0",
   "description": "",
   "main": "./build/server.js",

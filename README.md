@@ -1,4 +1,4 @@
-# seren-x-slack-bot
+# slack-bot
 
 This is a simple Slack chat bot created with Node.js, Express and the [Node Slack SDK.](https://github.com/slackapi/node-slack-sdk)
 
@@ -32,4 +32,4 @@ SLACK_BOT_TOKEN=
 
 An API was designed to fetch user responses from the database using two endpoints; One to fetch all the responses, and the other to fetch individual responses.
 
-Documentation for the API can be found here: [Seren X Slack Bot](https://documenter.getpostman.com/view/13046478/Tz5jfg7E)
+Documentation for the API can be found here: [Slack Bot](https://documenter.getpostman.com/view/13046478/Tz5jfg7E)
